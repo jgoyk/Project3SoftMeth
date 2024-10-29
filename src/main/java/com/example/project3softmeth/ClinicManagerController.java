@@ -8,7 +8,12 @@ public class ClinicManagerController {
     private Label welcomeText;
 
     @FXML
-    protected void onHelloButtonClick() {
+    protected void runButtonOnClick() {
         welcomeText.setText("Welcome to JavaFX Application!");
     }
+
+    @FXML
+    private Label commandText;
+
+
 }
