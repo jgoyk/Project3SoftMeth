@@ -7,14 +7,16 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project3softmeth.ClinicManagerController">
    <center>
       <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
@@ -44,7 +46,7 @@
                               </VBox>
                               <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                                  <children>
-                                    <DatePicker />
+                                    <DatePicker fx:id="dateOfAppt" />
                                  </children>
                               </VBox>
                               <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
@@ -58,9 +60,9 @@
                               </VBox>
                               <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                                  <children>
-                                    <TextField promptText="First Name" />
-                                    <TextField promptText="Last Name" />
-                                    <DatePicker promptText="Date of Birth" />
+                                    <TextField fx:id="firstName" promptText="First Name" />
+                                    <TextField fx:id="lastName" promptText="Last Name" />
+                                    <DatePicker fx:id="dateOfBirth" promptText="Date of Birth" />
                                  </children>
                               </VBox>
                               <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
@@ -72,34 +74,37 @@
                                     </Label>
                                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                        <children>
-                                          <RadioButton mnemonicParsing="false" text="Office Visit" />
-                                          <RadioButton layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Imaging Service" />
+                                          <RadioButton mnemonicParsing="false" text="Office Visit">
+                                             <toggleGroup>
+                                                <ToggleGroup fx:id="visitType" />
+                                             </toggleGroup></RadioButton>
+                                          <RadioButton layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Imaging Service" toggleGroup="$visitType" />
                                        </children>
                                     </HBox>
                                  </children>
                               </VBox>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <ComboBox prefWidth="150.0" promptText="Provider" />
-                                    <ComboBox prefWidth="150.0" promptText="Timeslot" />
+                                    <ComboBox fx:id="providersCombo" prefWidth="150.0" promptText="Provider" />
+                                    <ComboBox fx:id="timeslotsCombo" prefWidth="150.0" promptText="Timeslot" />
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <Button mnemonicParsing="false" text="Schedule New Appointment" />
-                                    <Button mnemonicParsing="false" text="Cancel Exisiting Appointment" />
+                                    <Button fx:id="newAppt" mnemonicParsing="false" onAction="#newApptOnClick" text="Schedule New Appointment" />
+                                    <Button fx:id="cancelAppt" mnemonicParsing="false" onAction="#cancelApptOnClick" text="Cancel Exisiting Appointment" />
                                  </children>
                               </HBox>
                               <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
                                  <children>
                                     <HBox prefHeight="100.0" prefWidth="200.0">
                                        <children>
-                                          <Button contentDisplay="CENTER" mnemonicParsing="false" text="Clear" textAlignment="CENTER" />
+                                          <Button fx:id="clear" onAction="#clearOnClick" contentDisplay="CENTER" mnemonicParsing="false" text="Clear" textAlignment="CENTER" />
                                        </children>
                                     </HBox>
-                                    <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="234.0">
+                                    <HBox id="cancelAppt" alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="234.0">
                                        <children>
-                                          <Button contentDisplay="CENTER" mnemonicParsing="false" text="Load Providers" textAlignment="CENTER" />
+                                          <Button fx:id="loadProviders" onAction="#loadProvidersOnClick" contentDisplay="CENTER" mnemonicParsing="false" text="Load Providers" textAlignment="CENTER" />
                                        </children>
                                     </HBox>
                                  </children>
@@ -122,4 +127,7 @@
         </tabs>
       </TabPane>
    </center>
+   <bottom>
+      <TextArea editable="false" fx:id="outputArea" prefHeight="200.0" prefWidth="200.0" promptText="Output Area" BorderPane.alignment="CENTER" />
+   </bottom>
 </BorderPane>

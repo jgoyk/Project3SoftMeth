@@ -1,6 +1,8 @@
 package util;
-import clinic.*;
-import util.List;
+
+import clinic.Appointment;
+import clinic.Provider;
+
 /**
  * A utility class for sorting appointments and providers.
  * 
