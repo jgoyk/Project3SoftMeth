@@ -152,7 +152,12 @@ public class ClinicManagerController {
         if(selectedVisitType != null){
             selectedVisitType.setSelected(false);
         }
-
+        timeslotsCombo.getSelectionModel().clearSelection();
+        providersCombo.getSelectionModel().clearSelection();
+        timeslotsCombo.setValue(null);
+        providersCombo.setValue(null);
+        timeslotsCombo.setPromptText("Timeslot");
+        providersCombo.setPromptText("Provider");
     }
 
     @FXML
