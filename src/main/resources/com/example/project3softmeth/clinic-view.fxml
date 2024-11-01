@@ -1,16 +1,114 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.project3softmeth.ClinicManagerController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="projectthree.ClinicManagerController" spacing="10" alignment="CENTER">
+    <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
 
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
+    <TabPane fx:id="tabPane">
+
+        <Tab text="Schedule Appointment" >
+            <GridPane vgap="10" hgap="10" >
+                <Label text="Date (MM/DD/YYYY):" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="dateField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                <Label text="Time Slot (1-12):" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <TextField fx:id="timeSlotField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                <Label text="First Name:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <TextField fx:id="firstNameField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                <Label text="Last Name:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <TextField fx:id="lastNameField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                <Label text="Date of Birth (MM/DD/YYYY):" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                <TextField fx:id="dobField" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+                <Label text="Provider NPI / Imaging Type:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                <TextField fx:id="providerField" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+                <HBox spacing="10" GridPane.rowIndex="6" GridPane.columnIndex="0" GridPane.columnSpan="2">
+                    <RadioButton fx:id="officeRadio" text="Office Visit" selected="true">
+                        <toggleGroup>
+                            <ToggleGroup fx:id="appointmentType"/>
+                        </toggleGroup>
+                    </RadioButton>
+                    <RadioButton fx:id="imagingRadio" text="Imaging" toggleGroup="$appointmentType"/>
+                </HBox>
+
+                <Button text="Schedule Appointment" onAction="#handleScheduleAppointment" GridPane.rowIndex="7" GridPane.columnIndex="0" GridPane.columnSpan="2"/>
+
+                <TextArea fx:id="scheduleOutputArea" editable="false" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" wrapText="true" GridPane.rowIndex="8" GridPane.columnIndex="0" GridPane.columnSpan="2"/>
+            </GridPane>
+        </Tab>
+
+        <Tab text="Manage Appointments">
+            <GridPane vgap="10" hgap="10">
+                <Label text="Date (MM/DD/YYYY):" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="manageDateField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                <Label text="Time Slot (1-12):" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <TextField fx:id="manageTimeSlotField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                <Label text="First Name:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <TextField fx:id="manageFirstNameField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                <Label text="Last Name:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <TextField fx:id="manageLastNameField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                <Label text="Date of Birth (MM/DD/YYYY):" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                <TextField fx:id="manageDobField" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+                <Label text="New Time Slot (for reschedule):" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                <TextField fx:id="newTimeSlotField" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+                <Button text="Cancel Appointment" onAction="#handleCancelAppointment" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                <Button text="Reschedule Appointment" onAction="#handleRescheduleAppointment" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+
+                <TextArea fx:id="manageOutputArea" editable="false" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS"  GridPane.rowIndex="7" GridPane.columnIndex="0" GridPane.columnSpan="2"/>
+            </GridPane>
+        </Tab>
+
+        <Tab text="Display Appointments">
+            <GridPane vgap="10" hgap="10">
+                <VBox spacing="10" GridPane.rowIndex="0" GridPane.columnIndex="0">
+                    <HBox spacing="10">
+                        <Button text="Display All (PA)" onAction="#handleDisplayAllAppointments"/>
+                        <Button text="Display By Patient (PP)" onAction="#handleDisplayByPatient"/>
+                        <Button text="Display By Location (PL)" onAction="#handleDisplayByLocation"/>
+                    </HBox>
+                    <HBox spacing="10">
+                        <Button text="Display Office Appointments (PO)" onAction="#handleDisplayOfficeAppointments"/>
+                        <Button text="Display Imaging Appointments (PI)" onAction="#handleDisplayImagingAppointments"/>
+                    </HBox>
+                </VBox>
+                <TableView fx:id="appointmentTableView" GridPane.rowIndex="1" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="dateColumn" text="Date"/>
+                        <TableColumn fx:id="timeColumn" text="Time"/>
+                        <TableColumn fx:id="patientColumn" text="Patient"/>
+                        <TableColumn fx:id="providerColumn" text="Provider"/>
+                        <TableColumn fx:id="typeColumn" text="Type"/>
+                    </columns>
+                </TableView>
+            </GridPane>
+        </Tab>
+
+        <Tab text="Financial">
+            <GridPane vgap="10" hgap="10">
+                <HBox spacing="10" GridPane.rowIndex="0" GridPane.columnIndex="0">
+                    <Button text="Display Billing Statements (PS)" onAction="#handleDisplayBillingStatements"/>
+                    <Button text="Display Provider Credits (PC)" onAction="#handleDisplayProviderCredits"/>
+                </HBox>
+                <TableView fx:id="financialTableView" GridPane.rowIndex="1" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="nameColumn" text="Name"/>
+                        <TableColumn fx:id="amountColumn" text="Amount"/>
+                    </columns>
+                </TableView>
+            </GridPane>
+        </Tab>
+    </TabPane>
 </VBox>
