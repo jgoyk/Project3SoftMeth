@@ -5,31 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="173da934-f2f9-41ec-b319-a58ad0a85d13" name="Changes" comment="Developed Schedule/Cancel page frontend">
-      <change afterPath="$PROJECT_DIR$/src/main/java/providers.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/clinic/Appointment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/clinic/Appointment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/clinic/ClinicManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/clinic/ClinicManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/clinic/Doctor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/clinic/Doctor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/clinic/Imaging.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/clinic/Imaging.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/clinic/Location.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/clinic/Location.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/clinic/Patient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/clinic/Patient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/clinic/Person.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/clinic/Person.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/clinic/Profile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/clinic/Profile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/clinic/Provider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/clinic/Provider.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/clinic/Radiology.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/clinic/Radiology.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/clinic/RunProject2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/clinic/RunProject2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/clinic/Specialty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/clinic/Specialty.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/clinic/Technician.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/clinic/Technician.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/clinic/Timeslot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/clinic/Timeslot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/clinic/Visit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/clinic/Visit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/clinic/Timeslot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/clinic/Timeslot.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/project3softmeth/ClinicManagerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/project3softmeth/ClinicManagerController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/project3softmeth/ClinicManagerMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/project3softmeth/ClinicManagerMain.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/project3softmeth/clinic-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/project3softmeth/clinic-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/util/CircularLinkedList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/util/CircularLinkedList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/util/Date.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/util/Date.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/util/List.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/util/List.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/util/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/util/Node.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/util/Sort.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/util/Sort.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

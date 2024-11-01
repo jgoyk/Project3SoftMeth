@@ -16,13 +16,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project3softmeth.ClinicManagerController">
+<BorderPane prefHeight="634.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project3softmeth.ClinicManagerController">
    <center>
       <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
           <Tab text="Schedule / Cancel">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="351.0" prefWidth="600.0">
                      <children>
                         <VBox prefHeight="200.0" prefWidth="600.0">
                            <children>
@@ -99,12 +99,12 @@
                                  <children>
                                     <HBox prefHeight="100.0" prefWidth="200.0">
                                        <children>
-                                          <Button fx:id="clear" onAction="#clearOnClick" contentDisplay="CENTER" mnemonicParsing="false" text="Clear" textAlignment="CENTER" />
+                                          <Button fx:id="clear" contentDisplay="CENTER" mnemonicParsing="false" onAction="#clearOnClick" text="Clear" textAlignment="CENTER" />
                                        </children>
                                     </HBox>
                                     <HBox id="cancelAppt" alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="234.0">
                                        <children>
-                                          <Button fx:id="loadProviders" onAction="#loadProvidersOnClick" contentDisplay="CENTER" mnemonicParsing="false" text="Load Providers" textAlignment="CENTER" />
+                                          <Button fx:id="loadProviders" contentDisplay="CENTER" mnemonicParsing="false" onAction="#loadProvidersOnClick" text="Load Providers" textAlignment="CENTER" />
                                        </children>
                                     </HBox>
                                  </children>
@@ -128,6 +128,6 @@
       </TabPane>
    </center>
    <bottom>
-      <TextArea editable="false" fx:id="outputArea" prefHeight="200.0" prefWidth="200.0" promptText="Output Area" BorderPane.alignment="CENTER" />
+      <TextArea fx:id="outputArea" editable="false" prefHeight="230.0" prefWidth="600.0" promptText="Output Area" BorderPane.alignment="CENTER" />
    </bottom>
 </BorderPane>
