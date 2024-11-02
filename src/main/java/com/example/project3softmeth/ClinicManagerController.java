@@ -251,8 +251,6 @@ public class ClinicManagerController {
 
     /**
      * Cancels an existing appointment based on user input.
-     * 
-     * @param event the action event triggered by the cancel appointment button
      */
     @FXML
     private void cancelApptOnClick() {
