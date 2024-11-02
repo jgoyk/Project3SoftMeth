@@ -41,6 +41,7 @@ public class Timeslot implements Comparable<Timeslot> {
      *                      - Values ≤ 0 are considered invalid.
      */
     public Timeslot(int timeslotValue) {
+        timeslotValue++;
         if(timeslotValue > 6){
             this.hour = (timeslotValue-5) / 2 + 13;
             this.minute = (timeslotValue+1) % 2 * 30;

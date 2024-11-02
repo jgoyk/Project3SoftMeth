@@ -1,7 +1,5 @@
 package util;
 
-import clinic.Appointment;
-
 import java.util.Iterator;
 
 /**

@@ -1,114 +1,233 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="projectthree.ClinicManagerController" spacing="10" alignment="CENTER">
-    <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+<BorderPane prefHeight="634.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project3softmeth.ClinicManagerController">
+   <center>
+      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+         <tabs>
+            <Tab text="Schedule / Cancel">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="351.0" prefWidth="600.0">
+                     <children>
+                        <VBox prefHeight="200.0" prefWidth="600.0">
+                           <children>
+                              <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" text="Schedule or Cancel an Appointment">
+                                       <font>
+                                          <Font name="System Bold Italic" size="18.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" text="Appointment Date">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <DatePicker fx:id="dateOfAppt" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" text="Patient Information">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <TextField fx:id="firstName" promptText="First Name" />
+                                    <TextField fx:id="lastName" promptText="Last Name" />
+                                    <DatePicker fx:id="dateOfBirth" promptText="Date of Birth" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" text="Visit Type">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <RadioButton fx:id="officeRadio" mnemonicParsing="false" onAction="#officeRadioOnClick" text="Office Visit">
+                                             <toggleGroup>
+                                                <ToggleGroup fx:id="visitType" />
+                                             </toggleGroup></RadioButton>
+                                          <RadioButton fx:id="imagingRadio" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#imagingRadioOnClick" text="Imaging Service" toggleGroup="$visitType" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <ComboBox fx:id="providersCombo" prefWidth="150.0" promptText="Provider" />
+                                    <ComboBox fx:id="timeslotsCombo" prefWidth="150.0" promptText="Timeslot" />
+                                    <ComboBox fx:id="imagingCombo" layoutX="310.0" layoutY="10.0" prefWidth="150.0" promptText="Imaging Type" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Button fx:id="newAppt" mnemonicParsing="false" onAction="#newApptOnClick" text="Schedule New Appointment" />
+                                    <Button fx:id="cancelApptBtn" mnemonicParsing="false" onAction="#cancelApptOnClick" text="Cancel Existing Appointment" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Button fx:id="clear" contentDisplay="CENTER" mnemonicParsing="false" onAction="#clearOnClick" text="Clear" textAlignment="CENTER" />
+                                    <Button fx:id="loadProviders" contentDisplay="CENTER" mnemonicParsing="false" onAction="#loadProvidersOnClick" text="Load Providers" textAlignment="CENTER" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab fx:id="rescheduleTab" text="Reschedule">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="351.0" prefWidth="600.0">
+                     <children>
+                        <VBox prefHeight="200.0" prefWidth="600.0">
+                           <children>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Label alignment="CENTER" text="Reschedule Appointment">
+                                       <font>
+                                          <Font name="System Bold Italic" size="18.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
 
-    <TabPane fx:id="tabPane">
+                              <!-- Existing Appointment Date -->
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Label text="Existing Appointment Date" />
+                                    <DatePicker fx:id="existingDateOfAppt" />
+                                 </children>
+                              </VBox>
 
-        <Tab text="Schedule Appointment" >
-            <GridPane vgap="10" hgap="10" >
-                <Label text="Date (MM/DD/YYYY):" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                <TextField fx:id="dateField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                              <!-- Patient Information -->
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Label text="Patient Information" />
+                                    <TextField fx:id="existingFirstName" promptText="First Name" />
+                                    <TextField fx:id="existingLastName" promptText="Last Name" />
+                                    <DatePicker fx:id="existingDateOfBirth" promptText="Date of Birth" />
+                                 </children>
+                              </VBox>
 
-                <Label text="Time Slot (1-12):" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                <TextField fx:id="timeSlotField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                              <!-- Existing and New Timeslots -->
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Label text="Existing Timeslot" />
+                                    <ComboBox fx:id="existingTimeslotCombo" promptText="Timeslot" />
+                                    <Label text="New Timeslot" />
+                                    <ComboBox fx:id="newTimeslotCombo" promptText="Timeslot" />
+                                 </children>
+                              </HBox>
 
-                <Label text="First Name:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-                <TextField fx:id="firstNameField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
-
-                <Label text="Last Name:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-                <TextField fx:id="lastNameField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
-
-                <Label text="Date of Birth (MM/DD/YYYY):" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-                <TextField fx:id="dobField" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
-
-                <Label text="Provider NPI / Imaging Type:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
-                <TextField fx:id="providerField" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
-
-                <HBox spacing="10" GridPane.rowIndex="6" GridPane.columnIndex="0" GridPane.columnSpan="2">
-                    <RadioButton fx:id="officeRadio" text="Office Visit" selected="true">
-                        <toggleGroup>
-                            <ToggleGroup fx:id="appointmentType"/>
-                        </toggleGroup>
-                    </RadioButton>
-                    <RadioButton fx:id="imagingRadio" text="Imaging" toggleGroup="$appointmentType"/>
-                </HBox>
-
-                <Button text="Schedule Appointment" onAction="#handleScheduleAppointment" GridPane.rowIndex="7" GridPane.columnIndex="0" GridPane.columnSpan="2"/>
-
-                <TextArea fx:id="scheduleOutputArea" editable="false" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" wrapText="true" GridPane.rowIndex="8" GridPane.columnIndex="0" GridPane.columnSpan="2"/>
-            </GridPane>
-        </Tab>
-
-        <Tab text="Manage Appointments">
-            <GridPane vgap="10" hgap="10">
-                <Label text="Date (MM/DD/YYYY):" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                <TextField fx:id="manageDateField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-
-                <Label text="Time Slot (1-12):" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                <TextField fx:id="manageTimeSlotField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-
-                <Label text="First Name:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-                <TextField fx:id="manageFirstNameField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
-
-                <Label text="Last Name:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-                <TextField fx:id="manageLastNameField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
-
-                <Label text="Date of Birth (MM/DD/YYYY):" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-                <TextField fx:id="manageDobField" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
-
-                <Label text="New Time Slot (for reschedule):" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
-                <TextField fx:id="newTimeSlotField" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
-
-                <Button text="Cancel Appointment" onAction="#handleCancelAppointment" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
-                <Button text="Reschedule Appointment" onAction="#handleRescheduleAppointment" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
-
-                <TextArea fx:id="manageOutputArea" editable="false" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS"  GridPane.rowIndex="7" GridPane.columnIndex="0" GridPane.columnSpan="2"/>
-            </GridPane>
-        </Tab>
-
-        <Tab text="Display Appointments">
-            <GridPane vgap="10" hgap="10">
-                <VBox spacing="10" GridPane.rowIndex="0" GridPane.columnIndex="0">
-                    <HBox spacing="10">
-                        <Button text="Display All (PA)" onAction="#handleDisplayAllAppointments"/>
-                        <Button text="Display By Patient (PP)" onAction="#handleDisplayByPatient"/>
-                        <Button text="Display By Location (PL)" onAction="#handleDisplayByLocation"/>
-                    </HBox>
-                    <HBox spacing="10">
-                        <Button text="Display Office Appointments (PO)" onAction="#handleDisplayOfficeAppointments"/>
-                        <Button text="Display Imaging Appointments (PI)" onAction="#handleDisplayImagingAppointments"/>
-                    </HBox>
-                </VBox>
-                <TableView fx:id="appointmentTableView" GridPane.rowIndex="1" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS">
-                    <columns>
-                        <TableColumn fx:id="dateColumn" text="Date"/>
-                        <TableColumn fx:id="timeColumn" text="Time"/>
-                        <TableColumn fx:id="patientColumn" text="Patient"/>
-                        <TableColumn fx:id="providerColumn" text="Provider"/>
-                        <TableColumn fx:id="typeColumn" text="Type"/>
-                    </columns>
-                </TableView>
-            </GridPane>
-        </Tab>
-
-        <Tab text="Financial">
-            <GridPane vgap="10" hgap="10">
-                <HBox spacing="10" GridPane.rowIndex="0" GridPane.columnIndex="0">
-                    <Button text="Display Billing Statements (PS)" onAction="#handleDisplayBillingStatements"/>
-                    <Button text="Display Provider Credits (PC)" onAction="#handleDisplayProviderCredits"/>
-                </HBox>
-                <TableView fx:id="financialTableView" GridPane.rowIndex="1" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS">
-                    <columns>
-                        <TableColumn fx:id="nameColumn" text="Name"/>
-                        <TableColumn fx:id="amountColumn" text="Amount"/>
-                    </columns>
-                </TableView>
-            </GridPane>
-        </Tab>
-    </TabPane>
-</VBox>
+                              <!-- Reschedule Button -->
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Button fx:id="rescheduleBtn" onAction="#rescheduleApptOnClick" text="Reschedule Appointment" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Display Appointments">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="351.0" prefWidth="600.0">
+                     <children>
+                        <GridPane hgap="10" vgap="10">
+                           <VBox spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                              <HBox spacing="10">
+                                 <Button onAction="#handleDisplayAllAppointments" text="Display All (PA)" />
+                                 <Button onAction="#handleDisplayByPatient" text="Display By Patient (PP)" />
+                                 <Button onAction="#handleDisplayByLocation" text="Display By Location (PL)" />
+                              </HBox>
+                              <HBox spacing="10">
+                                 <Button onAction="#handleDisplayOfficeAppointments" text="Display Office Appointments (PO)" />
+                                 <Button onAction="#handleDisplayImagingAppointments" text="Display Imaging Appointments (PI)" />
+                              </HBox>
+                           </VBox>
+                           <TableView fx:id="appointmentTableView" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
+                              <columns>
+                                 <TableColumn fx:id="dateColumn" text="Date" />
+                                 <TableColumn fx:id="timeColumn" text="Time" />
+                                 <TableColumn fx:id="patientColumn" text="Patient" />
+                                 <TableColumn fx:id="providerColumn" text="Provider" />
+                                 <TableColumn fx:id="typeColumn" text="Type" />
+                              </columns>
+                           </TableView>
+                           <columnConstraints>
+                              <ColumnConstraints />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints />
+                              <RowConstraints />
+                           </rowConstraints>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Financial">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="351.0" prefWidth="600.0">
+                     <children>
+                        <VBox prefHeight="48.0" prefWidth="595.0">
+                           <children>
+                              <HBox alignment="TOP_CENTER" prefHeight="25.0" prefWidth="599.0" spacing="10">
+                                 <Button onAction="#printBillingStatements" text="Display Billing Statements (PS)" />
+                                 <Button onAction="#printExpectedCredits" text="Display Provider Credits (PC)" />
+                              </HBox>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Warning: Checking financials will finalize and empty all existing appointments" textAlignment="CENTER" wrappingWidth="600.9609375" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+   </center>
+   <bottom>
+      <TextArea fx:id="outputArea" editable="false" prefHeight="230.0" prefWidth="600.0" promptText="Output Area" BorderPane.alignment="CENTER" />
+   </bottom>
+</BorderPane>
