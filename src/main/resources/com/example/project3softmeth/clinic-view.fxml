@@ -12,17 +12,20 @@
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.text.Font?>
 
 <BorderPane prefHeight="634.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project3softmeth.ClinicManagerController">
    <center>
       <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-        <tabs>
-          <Tab text="Schedule / Cancel">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="351.0" prefWidth="600.0">
+         <tabs>
+            <Tab text="Schedule / Cancel">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="351.0" prefWidth="600.0">
                      <children>
                         <VBox prefHeight="200.0" prefWidth="600.0">
                            <children>
@@ -92,91 +95,113 @@
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                  <children>
                                     <Button fx:id="newAppt" mnemonicParsing="false" onAction="#newApptOnClick" text="Schedule New Appointment" />
-                                    <Button fx:id="cancelAppt" mnemonicParsing="false" onAction="#cancelApptOnClick" text="Cancel Exisiting Appointment" />
+                                    <Button fx:id="cancelApptBtn" mnemonicParsing="false" onAction="#cancelApptOnClick" text="Cancel Existing Appointment" />
                                  </children>
                               </HBox>
                               <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <HBox prefHeight="100.0" prefWidth="200.0">
-                                       <children>
-                                          <Button fx:id="clear" contentDisplay="CENTER" mnemonicParsing="false" onAction="#clearOnClick" text="Clear" textAlignment="CENTER" />
-                                       </children>
-                                    </HBox>
-                                    <HBox id="cancelAppt" alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="234.0">
-                                       <children>
-                                          <Button fx:id="loadProviders" contentDisplay="CENTER" mnemonicParsing="false" onAction="#loadProvidersOnClick" text="Load Providers" textAlignment="CENTER" />
-                                       </children>
-                                    </HBox>
+                                    <Button fx:id="clear" contentDisplay="CENTER" mnemonicParsing="false" onAction="#clearOnClick" text="Clear" textAlignment="CENTER" />
+                                    <Button fx:id="loadProviders" contentDisplay="CENTER" mnemonicParsing="false" onAction="#loadProvidersOnClick" text="Load Providers" textAlignment="CENTER" />
                                  </children>
                               </HBox>
                            </children>
                         </VBox>
-                     </children></AnchorPane>
-            </content>
-          </Tab>
-           <Tab text="Reschedule">
-              <content>
-                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="351.0" prefWidth="600.0">
-                    <children>
-                       <VBox prefHeight="200.0" prefWidth="600.0">
-                          <children>
-                             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-                                <children>
-                                   <Label alignment="CENTER" text="Reschedule Appointment">
-                                      <font>
-                                         <Font name="System Bold Italic" size="18.0" />
-                                      </font>
-                                   </Label>
-                                </children>
-                             </VBox>
-
-                             <!-- Existing Appointment Date -->
-                             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-                                <children>
-                                   <Label text="Existing Appointment Date" />
-                                   <DatePicker fx:id="existingDateOfAppt" />
-                                </children>
-                             </VBox>
-
-                             <!-- Patient Information -->
-                             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-                                <children>
-                                   <Label text="Patient Information" />
-                                   <TextField fx:id="existingFirstName" promptText="First Name" />
-                                   <TextField fx:id="existingLastName" promptText="Last Name" />
-                                   <DatePicker fx:id="existingDateOfBirth" promptText="Date of Birth" />
-                                </children>
-                             </VBox>
-
-                             <!-- Existing and New Timeslots -->
-                             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                <children>
-                                   <Label text="Existing Timeslot" />
-                                   <ComboBox fx:id="existingTimeslotCombo" promptText="Timeslot" />
-
-                                   <Label text="New Timeslot" />
-                                   <ComboBox fx:id="newTimeslotCombo" promptText="Timeslot" />
-                                </children>
-                             </HBox>
-
-                             <!-- Reschedule Button -->
-                             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                <children>
-                                   <Button fx:id="rescheduleBtn" text="Reschedule Appointment" onAction="#rescheduleApptOnClick" />
-                                </children>
-                             </HBox>
-                          </children>
-                       </VBox>
-                    </children>
-                 </AnchorPane>
-              </content>
-           </Tab>
-           <Tab text="Clinic Locations">
-                <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                </content>
+                     </children>
+                  </AnchorPane>
+               </content>
             </Tab>
-        </tabs>
+            <Tab text="Reschedule">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="351.0" prefWidth="600.0">
+                     <children>
+                        <VBox prefHeight="200.0" prefWidth="600.0">
+                           <children>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Label alignment="CENTER" text="Reschedule Appointment">
+                                       <font>
+                                          <Font name="System Bold Italic" size="18.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+
+                              <!-- Existing Appointment Date -->
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Label text="Existing Appointment Date" />
+                                    <DatePicker fx:id="existingDateOfAppt" />
+                                 </children>
+                              </VBox>
+
+                              <!-- Patient Information -->
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Label text="Patient Information" />
+                                    <TextField fx:id="existingFirstName" promptText="First Name" />
+                                    <TextField fx:id="existingLastName" promptText="Last Name" />
+                                    <DatePicker fx:id="existingDateOfBirth" promptText="Date of Birth" />
+                                 </children>
+                              </VBox>
+
+                              <!-- Existing and New Timeslots -->
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Label text="Existing Timeslot" />
+                                    <ComboBox fx:id="existingTimeslotCombo" promptText="Timeslot" />
+                                    <Label text="New Timeslot" />
+                                    <ComboBox fx:id="newTimeslotCombo" promptText="Timeslot" />
+                                 </children>
+                              </HBox>
+
+                              <!-- Reschedule Button -->
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Button fx:id="rescheduleBtn" text="Reschedule Appointment" onAction="#rescheduleApptOnClick" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Clinic Locations">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+               </content>
+            </Tab>
+            <Tab text="Display Appointments">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="351.0" prefWidth="600.0">
+                     <children>
+                        <GridPane vgap="10" hgap="10">
+                           <VBox spacing="10" GridPane.rowIndex="0" GridPane.columnIndex="0">
+                              <HBox spacing="10">
+                                 <Button text="Display All (PA)" onAction="#handleDisplayAllAppointments"/>
+                                 <Button text="Display By Patient (PP)" onAction="#handleDisplayByPatient"/>
+                                 <Button text="Display By Location (PL)" onAction="#handleDisplayByLocation"/>
+                              </HBox>
+                              <HBox spacing="10">
+                                 <Button text="Display Office Appointments (PO)" onAction="#handleDisplayOfficeAppointments"/>
+                                 <Button text="Display Imaging Appointments (PI)" onAction="#handleDisplayImagingAppointments"/>
+                              </HBox>
+                           </VBox>
+                           <TableView fx:id="appointmentTableView" GridPane.rowIndex="1" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS">
+                              <columns>
+                                 <TableColumn fx:id="dateColumn" text="Date"/>
+                                 <TableColumn fx:id="timeColumn" text="Time"/>
+                                 <TableColumn fx:id="patientColumn" text="Patient"/>
+                                 <TableColumn fx:id="providerColumn" text="Provider"/>
+                                 <TableColumn fx:id="typeColumn" text="Type"/>
+                              </columns>
+                           </TableView>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+         </tabs>
       </TabPane>
    </center>
    <bottom>

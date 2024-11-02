@@ -124,6 +124,40 @@ public class ClinicManagerController {
     private TextArea outputArea;
 
     @FXML
+    void handleDisplayAllAppointments(ActionEvent event) {
+
+    }
+
+    @FXML
+    void handleDisplayByPatient(ActionEvent event) {
+
+    }
+
+    @FXML
+    void handleDisplayByLocation(ActionEvent event) {
+
+    }
+
+    @FXML
+    void handleDisplayOfficeAppointments(ActionEvent event) {
+
+    }
+
+    @FXML
+    void handleDisplayImagingAppointments(ActionEvent event) {
+
+    }
+
+    @FXML
+    void handleDisplayBillingStatements(ActionEvent event) {
+
+    }
+
+    @FXML
+    void handleDisplayProviderCredits(ActionEvent event) {
+
+    }
+    @FXML
     private void newApptOnClick() {
         System.out.println("Clicked New Appointment");
         if(!submissionValidator()) {
@@ -972,8 +1006,8 @@ public class ClinicManagerController {
             }
 
             // Convert LocalDate to Date
-            Date apptDateConverted = Date.from(apptDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-            Date dobConverted = Date.from(dob.atStartOfDay(ZoneId.systemDefault()).toInstant());
+            Date apptDateConverted = new Date(apptDate.getMonthValue(), apptDate.getDayOfMonth(), apptDate.getYear());
+            Date dobConverted = new Date(dob.getMonthValue(), dob.getDayOfMonth(), dob.getYear());
 
             // Prepare data for ClinicManager's reschedule method
             String[] commandArray = {
