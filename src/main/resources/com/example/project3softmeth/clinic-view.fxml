@@ -114,12 +114,64 @@
                      </children></AnchorPane>
             </content>
           </Tab>
-          <Tab text="Reschedule">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
-          </Tab>
-            <Tab text="Clinic Locations">
+           <Tab text="Reschedule">
+              <content>
+                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="351.0" prefWidth="600.0">
+                    <children>
+                       <VBox prefHeight="200.0" prefWidth="600.0">
+                          <children>
+                             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                <children>
+                                   <Label alignment="CENTER" text="Reschedule Appointment">
+                                      <font>
+                                         <Font name="System Bold Italic" size="18.0" />
+                                      </font>
+                                   </Label>
+                                </children>
+                             </VBox>
+
+                             <!-- Existing Appointment Date -->
+                             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                <children>
+                                   <Label text="Existing Appointment Date" />
+                                   <DatePicker fx:id="existingDateOfAppt" />
+                                </children>
+                             </VBox>
+
+                             <!-- Patient Information -->
+                             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                <children>
+                                   <Label text="Patient Information" />
+                                   <TextField fx:id="existingFirstName" promptText="First Name" />
+                                   <TextField fx:id="existingLastName" promptText="Last Name" />
+                                   <DatePicker fx:id="existingDateOfBirth" promptText="Date of Birth" />
+                                </children>
+                             </VBox>
+
+                             <!-- Existing and New Timeslots -->
+                             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                <children>
+                                   <Label text="Existing Timeslot" />
+                                   <ComboBox fx:id="existingTimeslotCombo" promptText="Timeslot" />
+
+                                   <Label text="New Timeslot" />
+                                   <ComboBox fx:id="newTimeslotCombo" promptText="Timeslot" />
+                                </children>
+                             </HBox>
+
+                             <!-- Reschedule Button -->
+                             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                <children>
+                                   <Button fx:id="rescheduleBtn" text="Reschedule Appointment" onAction="#rescheduleApptOnClick" />
+                                </children>
+                             </HBox>
+                          </children>
+                       </VBox>
+                    </children>
+                 </AnchorPane>
+              </content>
+           </Tab>
+           <Tab text="Clinic Locations">
                 <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                 </content>

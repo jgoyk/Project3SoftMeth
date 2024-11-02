@@ -15,7 +15,8 @@ import java.io.File;
 import util.List;
 import util.Node;
 import util.Sort;
-
+import java.time.LocalDate;
+import java.time.ZoneId;
 import static util.Sort.appointment;
 import static util.Sort.provider;
 
@@ -112,6 +113,15 @@ public class ClinicManagerController {
     private ComboBox<String> providersCombo;
 
     private RadioButton selectedVisitType;
+
+    @FXML
+    private DatePicker existingDateOfAppt, existingDateOfBirth;
+    @FXML
+    private TextField existingFirstName, existingLastName;
+    @FXML
+    private ComboBox<String> existingTimeslotCombo, newTimeslotCombo;
+    @FXML
+    private TextArea outputArea;
 
     @FXML
     private void newApptOnClick() {
@@ -941,6 +951,58 @@ public class ClinicManagerController {
         } else {
             System.out.println("Schedule calendar is empty.");
         }
+    }
+
+    @FXML
+    protected void rescheduleApptOnClick() {
+        try {
+            // Collect existing appointment details
+            LocalDate apptDate = existingDateOfAppt.getValue();
+            LocalDate dob = existingDateOfBirth.getValue();
+            String firstName = existingFirstName.getText();
+            String lastName = existingLastName.getText();
+            String oldTimeslot = existingTimeslotCombo.getValue();
+            String newTimeslot = newTimeslotCombo.getValue();
+
+            // Validate inputs
+            if (apptDate == null || dob == null || firstName.isEmpty() || lastName.isEmpty() ||
+                    oldTimeslot == null || newTimeslot == null) {
+                outputArea.setText("All fields must be filled to reschedule an appointment.");
+                return;
+            }
+
+            // Convert LocalDate to Date
+            Date apptDateConverted = Date.from(apptDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+            Date dobConverted = Date.from(dob.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+            // Prepare data for ClinicManager's reschedule method
+            String[] commandArray = {
+                    apptDateConverted.toString(), // Appointment date
+                    oldTimeslot,                  // Existing timeslot
+                    firstName,                    // First name
+                    lastName,                     // Last name
+                    dobConverted.toString(),      // Date of birth
+                    newTimeslot                   // New timeslot
+            };
+
+            clinicManager.rescheduleAppointment(commandArray);
+
+            // Clear the form
+            clearRescheduleForm();
+
+        } catch (Exception e) {
+            outputArea.setText("Error rescheduling appointment. Please check your inputs.");
+            e.printStackTrace();
+        }
+    }
+
+    private void clearRescheduleForm() {
+        existingDateOfAppt.setValue(null);
+        existingDateOfBirth.setValue(null);
+        existingFirstName.clear();
+        existingLastName.clear();
+        existingTimeslotCombo.setValue(null);
+        newTimeslotCombo.setValue(null);
     }
 
 }
