@@ -253,7 +253,6 @@ public class ClinicManagerController {
                 providerCreator(commandArray);
             }
         } catch (Exception e) {
-            System.out.println(e);
             return;
         }
         provider(providerList);
@@ -340,7 +339,7 @@ public class ClinicManagerController {
                 technicianCreator(inputList);
                 break;
             default: // Command not recognized
-                System.out.println("Invalid command!");
+                outputArea.setText("Invalid command!");
                 break;
         }
 
@@ -657,7 +656,7 @@ public class ClinicManagerController {
             }
             outputArea.appendText("** end of list **");
         } else {
-            outputArea.appendText("Schedule calendar is empty.");
+            outputArea.setText("Schedule calendar is empty.");
         }
     }
 
@@ -695,7 +694,6 @@ public class ClinicManagerController {
     private Radiology radiologyCreator(String serviceString) {
         Radiology room = null;
         for (Radiology service : Radiology.values()) {
-            System.out.println(service.getServiceName());
             if (service.getServiceName().equalsIgnoreCase(serviceString.trim())) {
                 room = service;
             }
@@ -744,7 +742,7 @@ public class ClinicManagerController {
                 return ptr.getTechnician();
             }
         } while(ptr != head);
-        System.out.println("Cannot find an available technician at all locations for " + room.name() + " at slot "+ timeslot.getTimeslotInt() +".");
+        outputArea.setText("Cannot find an available technician at all locations for " + room.name() + " at slot "+ timeslot.getTimeslotInt() +".");
         return null;
 
     }
@@ -799,13 +797,13 @@ public class ClinicManagerController {
         try {
             timeslot = Integer.parseInt(timeslotString);
         } catch(Exception e){
-            System.out.println(timeslotString + " is not a valid time slot.");
+            outputArea.setText(timeslotString + " is not a valid time slot.");
             return null;
         }
         if (timeslot >= 0 && timeslot < 12){
             return new Timeslot(timeslot);
         } else {
-            System.out.println(timeslotString + " is not a valid time slot.");
+            outputArea.setText(timeslotString + " is not a valid time slot.");
             return null;
         }
     }
@@ -822,7 +820,7 @@ public class ClinicManagerController {
                 return doctorList.get(i);
             }
         }
-        System.out.println(npi + " - provider doesn't exist.");
+        outputArea.setText(npi + " - provider doesn't exist.");
         return null;
     }
     /**
@@ -1005,10 +1003,12 @@ public class ClinicManagerController {
                 Person patient = patientList[i];
                 int dueAmount = patientBills[i];
                 String profileInfo = patient.getProfile().toString();
-                System.out.printf("(%d) %s [due: $%,.2f]%n", count++, profileInfo, (double) dueAmount);}
+                outputArea.appendText("\n"+ String.format("(%d) %s [due: $%,.2f]%n", count++, profileInfo, (double) dueAmount));}
 
-            System.out.println("** end of list **");
-        } else {System.out.println("Schedule calendar is empty.");}
+            outputArea.appendText("** end of list **\n");
+        } else {
+            outputArea.setText("Schedule calendar is empty.\n");
+        }
     }
 
 
@@ -1021,6 +1021,7 @@ public class ClinicManagerController {
      * The output includes each provider's profile information along with their total credit amount.
      * If the appointment list is empty, a message indicating that the schedule is empty is printed.
      */
+    @FXML
     private void printExpectedCredits() {
         if (!appointmentList.isEmpty()) {
             listEmptied = true;
@@ -1057,17 +1058,17 @@ public class ClinicManagerController {
                     size++;
                 }}
             // Print in the required format
-            System.out.println("** Credit amount ordered by provider. **");
+            outputArea.setText("** Credit amount ordered by provider. **");
             int count = 1;
             for (int i = 0; i < size; i++) {
                 Person patient = providerList[i];
                 int creditAmount = providerCredits[i];
                 String profileInfo = patient.getProfile().toString();
-                System.out.printf("(%d) %s [credit amount: $%.2f]%n", count++, profileInfo, (double) creditAmount);
+                outputArea.appendText( String.format("(%d) %s [credit amount: $%.2f]%n", count++, profileInfo, (double) creditAmount));
             }
-            System.out.println("** end of list **");
+            outputArea.appendText("\n** end of list **");
         } else {
-            System.out.println("Schedule calendar is empty.");
+            outputArea.setText("Schedule calendar is empty.");
         }
     }
 
