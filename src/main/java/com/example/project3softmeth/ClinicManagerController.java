@@ -23,7 +23,15 @@ import java.time.ZoneId;
 import static util.Sort.appointment;
 import static util.Sort.provider;
 
-
+/**
+ * Controller class for managing clinic appointments within a JavaFX application.
+ * Handles the logic for creating, rescheduling, displaying, and canceling appointments.
+ * The class interacts with various UI components to enable users to manage appointments
+ * and provides validation to ensure correct user inputs.
+ *
+ * @author Joshua Goykhman (Netid: jg1986) 
+ * @author Dhawal Arora (Netid: da812)
+ */
 public class ClinicManagerController {
     private static final int INDEX_COMMAND = 0;
     private static final int INDEX_APPOINTMENT_DATE = 0;
@@ -145,36 +153,63 @@ public class ClinicManagerController {
     @FXML
     private ComboBox<String> existingTimeslotCombo, newTimeslotCombo;
 
+
+    /**
+     * Displays all appointments sorted by appointment date, time, and provider's name.
+     * 
+     * @param event the action event triggered by the display button
+     */
     @FXML
     void handleDisplayAllAppointments(ActionEvent event) {
         // Print appointment list sorted by appointment date, time, then provider’s name.
         outputInSortedOrder(DATE_TIME_PROVIDER_NAME, APPOINTMENT_TYPE_BOTH);
     }
-
+    /**
+     * Displays all appointments sorted by patient (last name, first name, date of birth,
+     * appointment date, and time).
+     * 
+     * @param event the action event triggered by the display by patient button
+     */
     @FXML
     void handleDisplayByPatient(ActionEvent event) {
         // Print appointment list sorted by the patient (by last name, first name, date of birth, then appointment date and time).
         outputInSortedOrder(PATIENT_DATE_TIME, APPOINTMENT_TYPE_BOTH);
     }
-
+    /**
+     * Displays appointments sorted by county name, appointment date, and time.
+     * 
+     * @param event the action event triggered by the display by location button
+     */
     @FXML
     void handleDisplayByLocation(ActionEvent event) {
         // Print appointment list sorted by the county name, then the appointment date and time.
         outputInSortedOrder(COUNTY_DATE_TIME, APPOINTMENT_TYPE_BOTH);
     }
-
+    /**
+     * Displays office appointments sorted by county name, date, and time.
+     * 
+     * @param event the action event triggered by the display office appointments button
+     */
     @FXML
     void handleDisplayOfficeAppointments(ActionEvent event) {
-        // Print the list of office appointments, sorted by the county name, then date and time.
         outputInSortedOrder(COUNTY_DATE_TIME, APPOINTMENT_TYPE_OFFICE);
     }
 
+    /**
+     * Displays imaging appointments sorted by county name, date, and time.
+     * 
+     * @param event the action event triggered by the display imaging appointments button
+     */
     @FXML
     void handleDisplayImagingAppointments(ActionEvent event) {
-        // Print the list of imaging appointments, sorted by the county name, then date and time.
         outputInSortedOrder(COUNTY_DATE_TIME, APPOINTMENT_TYPE_IMAGING);
     }
 
+    /**
+     * Creates a new appointment based on user input.
+     * Checks if the appointment type is Imaging or Office and sets the parameters accordingly.
+     * Appointments are validated before being added to the list.
+     */
 
     @FXML
     private void newApptOnClick() {
@@ -196,19 +231,29 @@ public class ClinicManagerController {
             }
         }
     }
-
+    /**
+     * Sets the view to Imaging type, disabling provider selection and enabling imaging selection.
+     */
     @FXML
     private void imagingRadioOnClick() {
         providersCombo.setDisable(true);
         imagingCombo.setDisable(false);
     }
 
+    /**
+     * Sets the view to Office type, disabling imaging selection and enabling provider selection.
+     */
     @FXML
     private void officeRadioOnClick() {
         providersCombo.setDisable(false);
         imagingCombo.setDisable(true);
     }
 
+    /**
+     * Cancels an existing appointment based on user input.
+     * 
+     * @param event the action event triggered by the cancel appointment button
+     */
     @FXML
     private void cancelApptOnClick() {
         if(!submissionValidator()) {
@@ -218,7 +263,10 @@ public class ClinicManagerController {
         cancelAppointment(commandArray);
     }
 
-
+    /**
+     * Clears the form fields in the appointment form.
+     * Resets dropdowns, text fields, and prompts to their default states.
+     */
     @FXML
     private void clearOnClick() {
         imagingCombo.setDisable(false);
@@ -243,6 +291,10 @@ public class ClinicManagerController {
         providersCombo.setPromptText("Provider");
     }
 
+    /**
+     * Loads provider data from an external file and populates the provider list.
+     * Displays providers and technician rotation schedule in the output area.
+     */
     @FXML
     private void loadProvidersOnClick() {
         try {
@@ -271,11 +323,11 @@ public class ClinicManagerController {
             String name = technician.getProfile().getFirstName() + " " + technician.getProfile().getLastName();
             String location = technician.getLocation().toString();
             outputArea.appendText(name + " (" + location + ")");
-
+            
             if (i != 0) {
                 outputArea.appendText(" --> ");
             }
-
+            
             currNode = currNode.getNext();
         }
         for(String timeslot : TIMESLOTS){
@@ -285,10 +337,14 @@ public class ClinicManagerController {
             imagingCombo.getItems().add(imagingType);
         }
         loadProviders.setDisable(true);
-
     }
 
-
+    /**
+     * Validates the input data for creating or canceling an appointment.
+     * Ensures all required fields are filled, and appropriate options are selected.
+     *
+     * @return true if input data is valid, false otherwise
+     */
     private boolean submissionValidator(){
         selectedVisitType = (RadioButton) visitType.getSelectedToggle();
         if(selectedVisitType == null){
@@ -417,7 +473,7 @@ public class ClinicManagerController {
      * Creates an appointment based off commandLine input array
      * Returns the new appointment object if successful, null otherwise
      * @param commandArray an array from command line input with data to create appointment
-     @return an appointment or null object based on provided commandLine input array
+     * @return an appointment or null object based on provided commandLine input array
      */
     private Appointment createOfficeAppointment(String[] commandArray){
 
@@ -463,14 +519,32 @@ public class ClinicManagerController {
     }
 
 
-    // Method to populate the ComboBox with values
+    /**
+     * Populates the timeslot ComboBoxes with available timeslots.
+     * Adds each timeslot from the TIMESLOTS array into both the existingTimeslotCombo
+     * and newTimeslotCombo, making them available for selection when rescheduling appointments.
+     */
     private void populateComboBox() {
         for(String timeslot : TIMESLOTS) {
             existingTimeslotCombo.getItems().add(timeslot);
             newTimeslotCombo.getItems().add(timeslot);
         }
     }
-
+    /**
+     * Initializes the ClinicManagerController when the view is loaded.
+     * <p>
+     * Sets up a listener to populate ComboBox values when the reschedule tab is selected,
+     * ensuring the timeslot ComboBoxes are only populated when needed.
+     * Configures the TableView columns with data binding to display appointment information:
+     * <ul>
+     * <li>Date: the date of the appointment</li>
+     * <li>Time: the timeslot of the appointment</li>
+     * <li>Patient: patient information</li>
+     * <li>Provider: provider information</li>
+     * <li>Type: appointment type (Imaging or Office)</li>
+     * </ul>
+     * </p>
+     */
     @FXML
     private void initialize() {
         // Add a listener to load values when the tab is selected
@@ -628,7 +702,25 @@ public class ClinicManagerController {
     }
 
 
-
+    /**
+     * Outputs appointments in a sorted order based on the specified criteria.
+     * <p>
+     * This method checks if the appointment list is not empty and has not been emptied
+     * before sorting the list based on the provided order (ascending or descending).
+     * It filters the appointments based on the specified appointment type and 
+     * populates the table view with the filtered results.
+     * </p>
+     *
+     * @param order     A character representing the sort order. 
+     *                  Use 'A' for ascending and 'D' for descending.
+     * @param apptType  An integer representing the type of appointment to display.
+     *                  Possible values:
+     *                  - APPOINTMENT_TYPE_BOTH: displays both office and imaging appointments.
+     *                  - APPOINTMENT_TYPE_OFFICE: displays only office appointments.
+     *                  - APPOINTMENT_TYPE_IMAGING: displays only imaging appointments.
+     * 
+     * @throws IllegalArgumentException if the order parameter is invalid.
+     */
     private void outputInSortedOrder(char order, int apptType) {
         if (!appointmentList.isEmpty() && !listEmptied) {
             Sort.appointment(appointmentList, order);
@@ -1034,7 +1126,6 @@ public class ClinicManagerController {
             boolean found = false;
             int idx = -1;
             int size = 0;
-            // Accumulate total billing amounts per provider
             while (iterator.hasNext()) {
                 found = false;
                 idx = -1;
@@ -1072,6 +1163,19 @@ public class ClinicManagerController {
         }
     }
 
+    /**
+     * Handles the action of rescheduling an appointment when the corresponding button is clicked.
+     * <p>
+     * This method collects the details of the existing appointment from the user interface,
+     * validates the input fields, and prepares the data for the rescheduling process.
+     * If any input field is empty or invalid, an error message is displayed. If the inputs 
+     * are valid, it calls the {@code rescheduleAppointment} method with the prepared data.
+     * </p>
+     * <p>
+     * The method also converts LocalDate fields to a Date object and handles exceptions 
+     * that may occur during the process.
+     * </p>
+     */
     @FXML
     private void rescheduleApptOnClick() {
         try {
@@ -1114,6 +1218,13 @@ public class ClinicManagerController {
         }
     }
 
+    /**
+     * Clears the rescheduling form fields to reset the input for the next operation.
+     * <p>
+     * This method sets the date pickers to null and clears the text fields and combo boxes,
+     * ensuring that the form is ready for new input.
+     * </p>
+     */
     private void clearRescheduleForm() {
         existingDateOfAppt.setValue(null);
         existingDateOfBirth.setValue(null);
@@ -1122,5 +1233,4 @@ public class ClinicManagerController {
         existingTimeslotCombo.setValue(null);
         newTimeslotCombo.setValue(null);
     }
-
 }
