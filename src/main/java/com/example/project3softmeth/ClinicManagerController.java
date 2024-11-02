@@ -91,7 +91,7 @@ public class ClinicManagerController {
     private static List<Appointment> appointmentList = new List<Appointment>();
     private static boolean listEmptied = false;
     private static final String[] TIMESLOTS = {"9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM", "2:00 PM", "2:30 PM", "3:00 PM", "3:30 PM", "4:00 PM", "4:30 PM"};
-
+    private static final String[] IMAGING_TYPES = {"X-Ray", "Ultrasound", "CAT Scan"};
 
     @FXML
     private ComboBox<String> timeslotsCombo;
@@ -111,6 +111,12 @@ public class ClinicManagerController {
     private Button loadProviders;
     @FXML
     private ComboBox<String> providersCombo;
+    @FXML
+    private RadioButton imagingRadio;
+    @FXML
+    private RadioButton officeRadio;
+    @FXML
+    private ComboBox<String> imagingCombo;
 
     private RadioButton selectedVisitType;
 
@@ -171,15 +177,32 @@ public class ClinicManagerController {
         if(!submissionValidator()) {
             return;
         }
-        String[] commandArray = {dateOfAppt.getValue().toString(), Integer.toString(timeslotsCombo.getSelectionModel().getSelectedIndex()), firstName.getText(), lastName.getText(), dateOfBirth.getValue().toString(), Integer.toString(providersCombo.getSelectionModel().getSelectedIndex())};
+
         if(selectedVisitType.getText().equals("Imaging Service")){
-            technicianCreator(commandArray);
+            String[] commandArray = {dateOfAppt.getValue().toString(), Integer.toString(timeslotsCombo.getSelectionModel().getSelectedIndex()), firstName.getText(), lastName.getText(), dateOfBirth.getValue().toString(), imagingCombo.getSelectionModel().getSelectedItem()};
+            Appointment newImagingAppointment = createTechnicianAppointment(commandArray);
+            if(newImagingAppointment != null){
+                addAppointmentToList(newImagingAppointment, BOOKED_VALUE);
+            }
         } else {
+            String[] commandArray = {dateOfAppt.getValue().toString(), Integer.toString(timeslotsCombo.getSelectionModel().getSelectedIndex()), firstName.getText(), lastName.getText(), dateOfBirth.getValue().toString(), Integer.toString(providersCombo.getSelectionModel().getSelectedIndex())};
             Appointment newOfficeAppointment = createOfficeAppointment(commandArray);
             if(newOfficeAppointment != null){
                 addAppointmentToList(newOfficeAppointment, BOOKED_VALUE);
             }
         }
+    }
+
+    @FXML
+    private void imagingRadioOnClick() {
+        providersCombo.setDisable(true);
+        imagingCombo.setDisable(false);
+    }
+
+    @FXML
+    private void officeRadioOnClick() {
+        providersCombo.setDisable(false);
+        imagingCombo.setDisable(true);
     }
 
     @FXML
@@ -195,6 +218,8 @@ public class ClinicManagerController {
     @FXML
     private void clearOnClick() {
         System.out.println("Clicked Clear");
+        imagingCombo.setDisable(false);
+        providersCombo.setDisable(false);
         dateOfAppt.setValue(null);
         firstName.setText(null);
         lastName.setText(null);
@@ -206,8 +231,11 @@ public class ClinicManagerController {
         }
         timeslotsCombo.getSelectionModel().clearSelection();
         providersCombo.getSelectionModel().clearSelection();
+        imagingCombo.getSelectionModel().clearSelection();
+        imagingCombo.setValue(null);
         timeslotsCombo.setValue(null);
         providersCombo.setValue(null);
+        imagingCombo.setPromptText("Imaging Type");
         timeslotsCombo.setPromptText("Timeslot");
         providersCombo.setPromptText("Provider");
     }
@@ -250,6 +278,9 @@ public class ClinicManagerController {
         for(String timeslot : TIMESLOTS){
             timeslotsCombo.getItems().add(timeslot);
         }
+        for(String imagingType : IMAGING_TYPES){
+            imagingCombo.getItems().add(imagingType);
+        }
         loadProviders.setDisable(true);
 
     }
@@ -273,10 +304,18 @@ public class ClinicManagerController {
             outputArea.setText("Please select an appointment timeslot." + "\n");
             return false;
         }
-        if(providersCombo.getSelectionModel().getSelectedIndex() == COMBO_NOT_SELECTED_VALUE){
-            outputArea.setText("Please select an appointment timeslot." + "\n");
-            return false;
+        if(selectedVisitType.getText().equals("Imaging Service")){
+            if(imagingCombo.getSelectionModel().getSelectedIndex() == COMBO_NOT_SELECTED_VALUE){
+                outputArea.setText("Please select an imaging type." + "\n");
+                return false;
+            }
+        } else {
+            if(providersCombo.getSelectionModel().getSelectedIndex() == COMBO_NOT_SELECTED_VALUE){
+                outputArea.setText("Please select an appointment provider." + "\n");
+                return false;
+            }
         }
+
         return true;
     }
 
@@ -405,7 +444,7 @@ public class ClinicManagerController {
             return null;
         }
         if(!date.isValid()){
-            System.out.println("Appointment date: " + commandArray[INDEX_APPOINTMENT_DATE] + " is not a valid calendar date");
+            outputArea.setText("Appointment date: " + commandArray[INDEX_APPOINTMENT_DATE] + " is not a valid calendar date");
         }
         if( slot == null || provider == null){
             return null;
@@ -422,7 +461,7 @@ public class ClinicManagerController {
     private Appointment createTechnicianAppointment(String[] commandArray){
 
         if(commandArray.length != D_OR_T_COMMAND_LENGTH){
-            System.out.println("Missing data tokens.");
+            outputArea.setText("Missing data tokens.");
             return null;
         }
         Date date = null;
@@ -431,11 +470,13 @@ public class ClinicManagerController {
         Person provider = null;
         Radiology room = null;
         try{
-            date = new Date(commandArray[INDEX_APPOINTMENT_DATE]);
+            String[] dateArr = commandArray[INDEX_APPOINTMENT_DATE].split("-");
+            date = new Date(Integer.parseInt(dateArr[1]), Integer.parseInt(dateArr[2]), Integer.parseInt(dateArr[0]));
         }catch(Exception e){
-            System.out.println("Appointment date: " + commandArray[INDEX_APPOINTMENT_DATE] + " is not a valid calendar date");
+            outputArea.setText("Appointment date: " + commandArray[INDEX_APPOINTMENT_DATE] + " is not a valid calendar date");
             return null;
         }
+
         if(!appointmentDateValidator(date)){
             return null;
         }
@@ -452,7 +493,7 @@ public class ClinicManagerController {
             return null;
         }
         if(!imagingAppointmentValid(date,slot, patient)){
-            System.out.println(patient.toString() +" has an existing appointment at the same time slot.");
+            outputArea.setText(patient.toString() +" has an existing appointment at the same time slot.");
             return null;
         }
         provider = technicianAssigner(room, slot);
@@ -460,7 +501,7 @@ public class ClinicManagerController {
             return null;
         }
         if(!date.isValid()){
-            System.out.println("Appointment date: " + commandArray[INDEX_APPOINTMENT_DATE] + " is not a valid calendar date");
+            outputArea.setText("Appointment date: " + commandArray[INDEX_APPOINTMENT_DATE] + " is not a valid calendar date");
         }
 
         return new Imaging(date, slot, patient, provider, room);
@@ -513,7 +554,7 @@ public class ClinicManagerController {
      */
     private void rescheduleAppointment(String[] commandArray) {
         if (commandArray.length != VALID_R_COMMAND_LENGTH) {
-            System.out.println("Missing data tokens.");
+            outputArea.setText("Missing data tokens.");
             return;
         }
         Date date = null;
@@ -526,7 +567,7 @@ public class ClinicManagerController {
             profile = new Profile(commandArray[INDEX_FIRST_NAME], commandArray[INDEX_LAST_NAME], new Date(commandArray[INDEX_DATE_OF_BIRTH]));
             newTimeslot = new Timeslot(Integer.parseInt(commandArray[INDEX_NEWTIMESLOT]));
         } catch (Exception e) {
-            System.out.println(date + " " + slot + " " + profile + " does not exist.");
+            outputArea.setText(date + " " + slot + " " + profile + " does not exist.");
         }
 
         Iterator<Appointment> iterator = appointmentList.iterator();
@@ -539,7 +580,7 @@ public class ClinicManagerController {
                 return;
             }
         }
-        System.out.println(date + " " + slot + " " + profile + " does not exist.");
+        outputArea.setText(date + " " + slot + " " + profile + " does not exist.");
     }
 
 
@@ -557,33 +598,33 @@ public class ClinicManagerController {
             Sort.appointment(appointmentList, order);
             switch (apptType) {
                 case APPOINTMENT_TYPE_OFFICE:
-                    System.out.println(OUTPUT_HEADER_ARRAY[PRINT_OFFICE_VALUE]);
+                    outputArea.setText(OUTPUT_HEADER_ARRAY[PRINT_OFFICE_VALUE] + "\n");
                     break;
                 case APPOINTMENT_TYPE_IMAGING:
-                    System.out.println(OUTPUT_HEADER_ARRAY[PRINT_IMAGING_VALUE]);
+                    outputArea.setText(OUTPUT_HEADER_ARRAY[PRINT_IMAGING_VALUE] + "\n");
                     break;
                 case APPOINTMENT_TYPE_BOTH:
                     switch (order) {
                         case PATIENT_DATE_TIME:
-                            System.out.println(OUTPUT_HEADER_ARRAY[PRINT_PATIENT_VALUE]);
+                            outputArea.setText(OUTPUT_HEADER_ARRAY[PRINT_PATIENT_VALUE] + "\n");
                             break;
                         case DATE_TIME_PROVIDER_NAME:
-                            System.out.println(OUTPUT_HEADER_ARRAY[PRINT_APPOINTMENT_VALUE]);
+                            outputArea.setText(OUTPUT_HEADER_ARRAY[PRINT_APPOINTMENT_VALUE] + "\n");
                             break;
                         case COUNTY_DATE_TIME:
-                            System.out.println(OUTPUT_HEADER_ARRAY[PRINT_LOCATION_VALUE]);
+                            outputArea.setText(OUTPUT_HEADER_ARRAY[PRINT_LOCATION_VALUE] + "\n");
                             break;
                     }
                     break;
             }
             for (int i = 0; i < appointmentList.size(); i++) {
-                if (apptType == APPOINTMENT_TYPE_BOTH) System.out.println(appointmentList.get(i).toString());
-                if (apptType == APPOINTMENT_TYPE_OFFICE && !(appointmentList.get(i) instanceof Imaging)) System.out.println(appointmentList.get(i).toString());
-                if (apptType == APPOINTMENT_TYPE_IMAGING && appointmentList.get(i) instanceof Imaging) System.out.println(appointmentList.get(i).toString());
+                if (apptType == APPOINTMENT_TYPE_BOTH) outputArea.appendText(appointmentList.get(i).toString() + "\n");
+                if (apptType == APPOINTMENT_TYPE_OFFICE && !(appointmentList.get(i) instanceof Imaging)) outputArea.appendText(appointmentList.get(i).toString() + "\n");
+                if (apptType == APPOINTMENT_TYPE_IMAGING && appointmentList.get(i) instanceof Imaging) outputArea.appendText(appointmentList.get(i).toString() + "\n");
             }
-            System.out.println("** end of list **");
+            outputArea.appendText("** end of list **");
         } else {
-            System.out.println("Schedule calendar is empty.");
+            outputArea.appendText("Schedule calendar is empty.");
         }
     }
 
@@ -621,12 +662,13 @@ public class ClinicManagerController {
     private Radiology radiologyCreator(String serviceString) {
         Radiology room = null;
         for (Radiology service : Radiology.values()) {
-            if (service.name().equalsIgnoreCase(serviceString.trim())) {
+            System.out.println(service.getServiceName());
+            if (service.getServiceName().equalsIgnoreCase(serviceString.trim())) {
                 room = service;
             }
         }
         if (room == null) {
-            System.out.println(serviceString + " - imaging service not provided.");
+            outputArea.setText(serviceString + " - imaging service not provided.");
             return null;
         }
         return room;
@@ -689,11 +731,11 @@ public class ClinicManagerController {
         date = new Date(Integer.parseInt(dateArr[1]), Integer.parseInt(dateArr[2]), Integer.parseInt(dateArr[0]));
 
         if(date == null || !date.isValid()){
-            System.out.println("Patient dob: " + dateOfBirthString + " is not a valid calendar date");
+            outputArea.setText("Patient dob: " + dateOfBirthString + " is not a valid calendar date");
             return null;
         }
         if(checkDateValid(date) > 0){
-            System.out.println("Patient dob: " + dateOfBirthString + " is today or a date after today.");
+            outputArea.setText("Patient dob: " + dateOfBirthString + " is today or a date after today.");
             return null;
         }
         Profile profile;
