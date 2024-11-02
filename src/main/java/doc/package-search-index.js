@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"m":"com.example.project3softmeth","l":"clinic"},{"m":"com.example.project3softmeth","l":"com.example.project3softmeth"},{"m":"com.example.project3softmeth","l":"util"}];updateSearchResults();
