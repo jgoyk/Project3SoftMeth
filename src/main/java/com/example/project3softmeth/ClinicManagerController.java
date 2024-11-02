@@ -92,7 +92,8 @@ public class ClinicManagerController {
     private static boolean listEmptied = false;
     private static final String[] TIMESLOTS = {"9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM", "2:00 PM", "2:30 PM", "3:00 PM", "3:30 PM", "4:00 PM", "4:30 PM"};
     private static final String[] IMAGING_TYPES = {"X-Ray", "Ultrasound", "CAT Scan"};
-
+    @FXML
+    private Tab rescheduleTab;
     @FXML
     private ComboBox<String> timeslotsCombo;
     @FXML
@@ -185,7 +186,7 @@ public class ClinicManagerController {
                 addAppointmentToList(newImagingAppointment, BOOKED_VALUE);
             }
         } else {
-            String[] commandArray = {dateOfAppt.getValue().toString(), Integer.toString(timeslotsCombo.getSelectionModel().getSelectedIndex()), firstName.getText(), lastName.getText(), dateOfBirth.getValue().toString(), Integer.toString(providersCombo.getSelectionModel().getSelectedIndex())};
+            String[] commandArray = {dateOfAppt.getValue().toString(), Integer.toString(timeslotsCombo.getSelectionModel().getSelectedIndex()), firstName.getText(), lastName.getText(), dateOfBirth.getValue().toString(), providersCombo.getSelectionModel().getSelectedItem()};
             Appointment newOfficeAppointment = createOfficeAppointment(commandArray);
             if(newOfficeAppointment != null){
                 addAppointmentToList(newOfficeAppointment, BOOKED_VALUE);
@@ -214,6 +215,7 @@ public class ClinicManagerController {
         String[] commandArray = {dateOfAppt.getValue().toString(), Integer.toString(timeslotsCombo.getSelectionModel().getSelectedIndex()), firstName.getText(), lastName.getText(), dateOfBirth.getValue().toString(), Integer.toString(providersCombo.getSelectionModel().getSelectedIndex())};
         cancelAppointment(commandArray);
     }
+
 
     @FXML
     private void clearOnClick() {
@@ -258,7 +260,9 @@ public class ClinicManagerController {
         technicianList.reverse();
         outputArea.setText("Providers loaded to the list." + "\n");
         for (int i = 0; i < providerList.size(); i++) {
-            providersCombo.getItems().add(providerList.get(i).getProfile().getFirstName() + " " + providerList.get(i).getProfile().getLastName());
+            if(providerList.get(i) instanceof Doctor){
+                providersCombo.getItems().add(providerList.get(i).getProfile().getFirstName() + " " + providerList.get(i).getProfile().getLastName() + " " + providerList.get(i).getProfile().getDateOfBirth().toString());
+            }
             outputArea.appendText(providerList.get(i).toString() + "\n");
         }
         outputArea.appendText("Rotation list for the technicians." + "\n");
@@ -439,7 +443,14 @@ public class ClinicManagerController {
         }
         try{
             slot = timeslotCreator(commandArray[INDEX_TIMESLOT]);
-            provider = doctorList.get(Integer.parseInt(commandArray[INDEX_IMAGING_TYPE]));
+            for(int i = 0; i < doctorList.size(); i++){
+                if(doctorList.get(i).getProfile().getFirstName().equals(commandArray[INDEX_IMAGING_TYPE].split(" ")[0])
+                && doctorList.get(i).getProfile().getLastName().equals(commandArray[INDEX_IMAGING_TYPE].split(" ")[1])
+                        && doctorList.get(i).getProfile().getDateOfBirth().equals(new Date(commandArray[INDEX_IMAGING_TYPE].split(" ")[2]))
+                ){
+                    provider = doctorList.get(i);
+                }
+            }
         }catch(Exception e){
             return null;
         }
@@ -452,6 +463,24 @@ public class ClinicManagerController {
         return new Appointment(date, slot, patient, provider);
     }
 
+
+    // Method to populate the ComboBox with values
+    private void populateComboBox() {
+        for(String timeslot : TIMESLOTS) {
+            existingTimeslotCombo.getItems().add(timeslot);
+            newTimeslotCombo.getItems().add(timeslot);
+        }
+    }
+
+    @FXML
+    private void initialize() {
+        // Add a listener to load values when the tab is selected
+        rescheduleTab.setOnSelectionChanged(event -> {
+            if (rescheduleTab.isSelected()) {
+                populateComboBox();
+            }
+        });
+    }
     /**
      * Creates an appointment based off commandLine input array
      * Returns the new appointment object if successful, null otherwise
@@ -564,8 +593,8 @@ public class ClinicManagerController {
         try {
             date = new Date(commandArray[INDEX_APPOINTMENT_DATE]);
             slot = new Timeslot(Integer.parseInt(commandArray[INDEX_TIMESLOT]));
-            profile = new Profile(commandArray[INDEX_FIRST_NAME], commandArray[INDEX_LAST_NAME], new Date(commandArray[INDEX_DATE_OF_BIRTH]));
             newTimeslot = new Timeslot(Integer.parseInt(commandArray[INDEX_NEWTIMESLOT]));
+            profile = new Profile(commandArray[INDEX_FIRST_NAME], commandArray[INDEX_LAST_NAME], new Date(commandArray[INDEX_DATE_OF_BIRTH]));
         } catch (Exception e) {
             outputArea.setText(date + " " + slot + " " + profile + " does not exist.");
         }
@@ -574,6 +603,10 @@ public class ClinicManagerController {
         while (iterator.hasNext()) {
             Appointment apptToCheck = iterator.next();
             if (apptToCheck.getPatient().getProfile().equals(profile) && apptToCheck.getTimeslot().equals(slot) && apptToCheck.getDate().equals(date)) {
+                if(apptToCheck instanceof Imaging){
+                    outputArea.setText("Imaging appointments cannot be rescheduled");
+                    return;
+                }
                 if (addAppointmentToList(new Appointment(date, newTimeslot, new Person(profile), apptToCheck.getProvider()), RESCHEDULE_VALUE)) {
                     appointmentList.remove(apptToCheck);
                 }
@@ -769,7 +802,7 @@ public class ClinicManagerController {
             System.out.println(timeslotString + " is not a valid time slot.");
             return null;
         }
-        if (timeslot > 0 && timeslot < 13){
+        if (timeslot >= 0 && timeslot < 12){
             return new Timeslot(timeslot);
         } else {
             System.out.println(timeslotString + " is not a valid time slot.");
@@ -1039,19 +1072,19 @@ public class ClinicManagerController {
     }
 
     @FXML
-    protected void rescheduleApptOnClick() {
+    private void rescheduleApptOnClick() {
         try {
             // Collect existing appointment details
             LocalDate apptDate = existingDateOfAppt.getValue();
             LocalDate dob = existingDateOfBirth.getValue();
             String firstName = existingFirstName.getText();
             String lastName = existingLastName.getText();
-            String oldTimeslot = existingTimeslotCombo.getValue();
-            String newTimeslot = newTimeslotCombo.getValue();
+            String oldTimeslot = Integer.toString(existingTimeslotCombo.getSelectionModel().getSelectedIndex());
+            String newTimeslot = Integer.toString(newTimeslotCombo.getSelectionModel().getSelectedIndex());
 
             // Validate inputs
             if (apptDate == null || dob == null || firstName.isEmpty() || lastName.isEmpty() ||
-                    oldTimeslot == null || newTimeslot == null) {
+                    oldTimeslot.equals(Integer.toString(COMBO_NOT_SELECTED_VALUE)) || newTimeslot.equals(Integer.toString(COMBO_NOT_SELECTED_VALUE))) {
                 outputArea.setText("All fields must be filled to reschedule an appointment.");
                 return;
             }
@@ -1070,9 +1103,8 @@ public class ClinicManagerController {
                     newTimeslot                   // New timeslot
             };
 
-            //clinicManager.rescheduleAppointment(commandArray);
+            rescheduleAppointment(commandArray);
 
-            // Clear the form
             clearRescheduleForm();
 
         } catch (Exception e) {
