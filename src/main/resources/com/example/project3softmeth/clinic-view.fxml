@@ -211,30 +211,15 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="351.0" prefWidth="600.0">
                      <children>
-                        <GridPane hgap="10" vgap="10">
-                           <VBox prefHeight="48.0" prefWidth="595.0">
-                              <children>
-                                 <HBox alignment="TOP_CENTER" prefHeight="25.0" prefWidth="599.0" spacing="10">
-                                    <Button onAction="#printBillingStatements" text="Display Billing Statements (PS)" />
-                                    <Button onAction="#printExpectedCredits" text="Display Provider Credits (PC)" />
-                                 </HBox>
-                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Warning: Checking financials will finalize and empty all existing appointments" textAlignment="CENTER" wrappingWidth="600.9609375" />
-                              </children>
-                           </VBox>
-                           <TableView fx:id="financialTableView" prefHeight="314.0" prefWidth="601.0" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
-                              <columns>
-                                 <TableColumn fx:id="nameColumn" text="Name" />
-                                 <TableColumn fx:id="amountColumn" text="Amount" />
-                              </columns>
-                           </TableView>
-                           <columnConstraints>
-                              <ColumnConstraints />
-                           </columnConstraints>
-                           <rowConstraints>
-                              <RowConstraints />
-                              <RowConstraints />
-                           </rowConstraints>
-                        </GridPane>
+                        <VBox prefHeight="48.0" prefWidth="595.0">
+                           <children>
+                              <HBox alignment="TOP_CENTER" prefHeight="25.0" prefWidth="599.0" spacing="10">
+                                 <Button onAction="#printBillingStatements" text="Display Billing Statements (PS)" />
+                                 <Button onAction="#printExpectedCredits" text="Display Provider Credits (PC)" />
+                              </HBox>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Warning: Checking financials will finalize and empty all existing appointments" textAlignment="CENTER" wrappingWidth="600.9609375" />
+                           </children>
+                        </VBox>
                      </children>
                   </AnchorPane>
                </content>

@@ -1,6 +1,9 @@
 package com.example.project3softmeth;
 
 import clinic.*;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.fxml.FXMLLoader;
@@ -120,6 +123,21 @@ public class ClinicManagerController {
     private ComboBox<String> imagingCombo;
 
     private RadioButton selectedVisitType;
+    @FXML
+    private TableView financialTableView;
+
+    @FXML
+    private TableView<Appointment> appointmentTableView;
+    @FXML
+    private TableColumn<Appointment, String> dateColumn;
+    @FXML
+    private TableColumn<Appointment, String> timeColumn;
+    @FXML
+    private TableColumn<Appointment, String> patientColumn;
+    @FXML
+    private TableColumn<Appointment, String> providerColumn;
+    @FXML
+    private TableColumn<Appointment, String> typeColumn;
 
     @FXML
     private DatePicker existingDateOfAppt, existingDateOfBirth;
@@ -158,23 +176,9 @@ public class ClinicManagerController {
         outputInSortedOrder(COUNTY_DATE_TIME, APPOINTMENT_TYPE_IMAGING);
     }
 
-    @FXML
-    void handleDisplayBillingStatements(ActionEvent event) {
-        // Print billing statements of all patients.
-        printBillingStatements();
-    }
-
-    @FXML
-    void handleDisplayProviderCredits(ActionEvent event) {
-        // You may need to implement this method if it's a specific task.
-        // Currently, there's no direct equivalent in the methods you've listed.
-        // Assuming it might require showing credits for providers, you can add the necessary logic here.
-        //displayProviderCredits();
-    }
 
     @FXML
     private void newApptOnClick() {
-        System.out.println("Clicked New Appointment");
         if(!submissionValidator()) {
             return;
         }
@@ -208,7 +212,6 @@ public class ClinicManagerController {
 
     @FXML
     private void cancelApptOnClick() {
-        System.out.println("Clicked Cancel Appointment");
         if(!submissionValidator()) {
             return;
         }
@@ -219,7 +222,6 @@ public class ClinicManagerController {
 
     @FXML
     private void clearOnClick() {
-        System.out.println("Clicked Clear");
         imagingCombo.setDisable(false);
         providersCombo.setDisable(false);
         dateOfAppt.setValue(null);
@@ -244,7 +246,6 @@ public class ClinicManagerController {
 
     @FXML
     private void loadProvidersOnClick() {
-        System.out.println("Clicked LoadProviders");
         try {
             File providerFile = new File("src/main/java/providers.txt");
             Scanner fileScanner = new Scanner(providerFile);
@@ -479,6 +480,18 @@ public class ClinicManagerController {
                 populateComboBox();
             }
         });
+        dateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDate().toString()));
+        timeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTimeslot().toString()));
+        patientColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPatient().toString()));
+        providerColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProvider().toString()));
+        typeColumn.setCellValueFactory(cellData -> {
+            if (cellData.getValue() instanceof Imaging) {
+                return new SimpleStringProperty("Imaging");
+            } else {
+                return new SimpleStringProperty("Office");
+            }
+        });
+
     }
     /**
      * Creates an appointment based off commandLine input array
@@ -616,49 +629,37 @@ public class ClinicManagerController {
     }
 
 
-    /**
-     * Outputs the appointment list in sorted order based on the specified criteria.
-     *
-     * If the appointment list is not empty, it sorts the appointments according to the given order and type,
-     * then prints them with appropriate headers. If the list is empty, a message indicating that the schedule is empty is printed.
-     *
-     * @param order The sorting criteria (e.g., patient date time).
-     * @param apptType The type of appointment (e.g., office, imaging, both).
-     */
+
     private void outputInSortedOrder(char order, int apptType) {
         if (!appointmentList.isEmpty() && !listEmptied) {
             Sort.appointment(appointmentList, order);
-            switch (apptType) {
-                case APPOINTMENT_TYPE_OFFICE:
-                    outputArea.setText(OUTPUT_HEADER_ARRAY[PRINT_OFFICE_VALUE] + "\n");
-                    break;
-                case APPOINTMENT_TYPE_IMAGING:
-                    outputArea.setText(OUTPUT_HEADER_ARRAY[PRINT_IMAGING_VALUE] + "\n");
-                    break;
-                case APPOINTMENT_TYPE_BOTH:
-                    switch (order) {
-                        case PATIENT_DATE_TIME:
-                            outputArea.setText(OUTPUT_HEADER_ARRAY[PRINT_PATIENT_VALUE] + "\n");
-                            break;
-                        case DATE_TIME_PROVIDER_NAME:
-                            outputArea.setText(OUTPUT_HEADER_ARRAY[PRINT_APPOINTMENT_VALUE] + "\n");
-                            break;
-                        case COUNTY_DATE_TIME:
-                            outputArea.setText(OUTPUT_HEADER_ARRAY[PRINT_LOCATION_VALUE] + "\n");
-                            break;
-                    }
-                    break;
-            }
+            ObservableList<Appointment> appointmentsToDisplay = FXCollections.observableArrayList();
+
             for (int i = 0; i < appointmentList.size(); i++) {
-                if (apptType == APPOINTMENT_TYPE_BOTH) outputArea.appendText(appointmentList.get(i).toString() + "\n");
-                if (apptType == APPOINTMENT_TYPE_OFFICE && !(appointmentList.get(i) instanceof Imaging)) outputArea.appendText(appointmentList.get(i).toString() + "\n");
-                if (apptType == APPOINTMENT_TYPE_IMAGING && appointmentList.get(i) instanceof Imaging) outputArea.appendText(appointmentList.get(i).toString() + "\n");
+                Appointment appt = appointmentList.get(i);
+                boolean addToList = false;
+
+                if (apptType == APPOINTMENT_TYPE_BOTH) {
+                    addToList = true;
+                } else if (apptType == APPOINTMENT_TYPE_OFFICE && !(appt instanceof Imaging)) {
+                    addToList = true;
+                } else if (apptType == APPOINTMENT_TYPE_IMAGING && appt instanceof Imaging) {
+                    addToList = true;
+                }
+
+                if (addToList) {
+                    appointmentsToDisplay.add(appt);
+                }
             }
-            outputArea.appendText("** end of list **");
+
+            appointmentTableView.setItems(appointmentsToDisplay);
+            outputArea.clear(); // Optionally clear or update outputArea
         } else {
             outputArea.setText("Schedule calendar is empty.");
+            appointmentTableView.setItems(FXCollections.observableArrayList());
         }
     }
+
 
 
     /**
@@ -997,13 +998,13 @@ public class ClinicManagerController {
                     patientHashCodeList[size] = patient.hashCode();
                     patientBills[size] = billingAmount;
                     size++;}}
-            outputArea.setText("** Billing statement ordered by patient. **");
+            outputArea.setText("** Billing statement ordered by patient. **\n");
             int count = 1;
             for (int i = 0; i < size; i++) {
                 Person patient = patientList[i];
                 int dueAmount = patientBills[i];
                 String profileInfo = patient.getProfile().toString();
-                outputArea.appendText("\n"+ String.format("(%d) %s [due: $%,.2f]%n", count++, profileInfo, (double) dueAmount));}
+                outputArea.appendText(String.format("(%d) %s [due: $%,.2f]%n", count++, profileInfo, (double) dueAmount));}
 
             outputArea.appendText("** end of list **\n");
         } else {
@@ -1058,7 +1059,7 @@ public class ClinicManagerController {
                     size++;
                 }}
             // Print in the required format
-            outputArea.setText("** Credit amount ordered by provider. **");
+            outputArea.setText("** Credit amount ordered by provider. **\n");
             int count = 1;
             for (int i = 0; i < size; i++) {
                 Person patient = providerList[i];
@@ -1066,7 +1067,7 @@ public class ClinicManagerController {
                 String profileInfo = patient.getProfile().toString();
                 outputArea.appendText( String.format("(%d) %s [credit amount: $%.2f]%n", count++, profileInfo, (double) creditAmount));
             }
-            outputArea.appendText("\n** end of list **");
+            outputArea.appendText("** end of list **");
         } else {
             outputArea.setText("Schedule calendar is empty.");
         }
