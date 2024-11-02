@@ -120,8 +120,6 @@ public class ClinicManagerController {
     private TextField existingFirstName, existingLastName;
     @FXML
     private ComboBox<String> existingTimeslotCombo, newTimeslotCombo;
-    @FXML
-    private TextArea outputArea;
 
     @FXML
     void handleDisplayAllAppointments(ActionEvent event) {
@@ -164,7 +162,7 @@ public class ClinicManagerController {
         // You may need to implement this method if it's a specific task.
         // Currently, there's no direct equivalent in the methods you've listed.
         // Assuming it might require showing credits for providers, you can add the necessary logic here.
-        displayProviderCredits();
+        //displayProviderCredits();
     }
 
     @FXML
@@ -895,6 +893,7 @@ public class ClinicManagerController {
      * showing each patient's profile information along with the total amount due. If the appointment list
      * is empty, a message indicating that the schedule is empty is printed.
      */
+    @FXML
     private void printBillingStatements() {
         if (!appointmentList.isEmpty()) {
             listEmptied = true;
@@ -1029,7 +1028,7 @@ public class ClinicManagerController {
                     newTimeslot                   // New timeslot
             };
 
-            clinicManager.rescheduleAppointment(commandArray);
+            //clinicManager.rescheduleAppointment(commandArray);
 
             // Clear the form
             clearRescheduleForm();
