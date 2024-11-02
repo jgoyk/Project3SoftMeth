@@ -201,6 +201,26 @@
                   </AnchorPane>
                </content>
             </Tab>
+            <Tab text="Financial">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="351.0" prefWidth="600.0">
+                     <children>
+                        <GridPane vgap="10" hgap="10">
+                           <HBox spacing="10" GridPane.rowIndex="0" GridPane.columnIndex="0">
+                              <Button text="Display Billing Statements (PS)" onAction="#printBillingStatements"/>
+                              <Button text="Display Provider Credits (PC)" onAction="#handleDisplayProviderCredits"/>
+                           </HBox>
+                           <TableView fx:id="financialTableView" GridPane.rowIndex="1" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS">
+                              <columns>
+                                 <TableColumn fx:id="nameColumn" text="Name"/>
+                                 <TableColumn fx:id="amountColumn" text="Amount"/>
+                              </columns>
+                           </TableView>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
          </tabs>
       </TabPane>
    </center>

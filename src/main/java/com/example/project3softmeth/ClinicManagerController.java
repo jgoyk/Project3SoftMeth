@@ -125,38 +125,48 @@ public class ClinicManagerController {
 
     @FXML
     void handleDisplayAllAppointments(ActionEvent event) {
-
+        // Print appointment list sorted by appointment date, time, then provider’s name.
+        outputInSortedOrder(DATE_TIME_PROVIDER_NAME, APPOINTMENT_TYPE_BOTH);
     }
 
     @FXML
     void handleDisplayByPatient(ActionEvent event) {
-
+        // Print appointment list sorted by the patient (by last name, first name, date of birth, then appointment date and time).
+        outputInSortedOrder(PATIENT_DATE_TIME, APPOINTMENT_TYPE_BOTH);
     }
 
     @FXML
     void handleDisplayByLocation(ActionEvent event) {
-
+        // Print appointment list sorted by the county name, then the appointment date and time.
+        outputInSortedOrder(COUNTY_DATE_TIME, APPOINTMENT_TYPE_BOTH);
     }
 
     @FXML
     void handleDisplayOfficeAppointments(ActionEvent event) {
-
+        // Print the list of office appointments, sorted by the county name, then date and time.
+        outputInSortedOrder(COUNTY_DATE_TIME, APPOINTMENT_TYPE_OFFICE);
     }
 
     @FXML
     void handleDisplayImagingAppointments(ActionEvent event) {
-
+        // Print the list of imaging appointments, sorted by the county name, then date and time.
+        outputInSortedOrder(COUNTY_DATE_TIME, APPOINTMENT_TYPE_IMAGING);
     }
 
     @FXML
     void handleDisplayBillingStatements(ActionEvent event) {
-
+        // Print billing statements of all patients.
+        printBillingStatements();
     }
 
     @FXML
     void handleDisplayProviderCredits(ActionEvent event) {
-
+        // You may need to implement this method if it's a specific task.
+        // Currently, there's no direct equivalent in the methods you've listed.
+        // Assuming it might require showing credits for providers, you can add the necessary logic here.
+        displayProviderCredits();
     }
+
     @FXML
     private void newApptOnClick() {
         System.out.println("Clicked New Appointment");

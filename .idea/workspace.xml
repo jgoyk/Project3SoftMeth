@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="173da934-f2f9-41ec-b319-a58ad0a85d13" name="Changes" comment="reschedule">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="173da934-f2f9-41ec-b319-a58ad0a85d13" name="Changes" comment="display">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/project3softmeth/ClinicManagerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/project3softmeth/ClinicManagerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/project3softmeth/clinic-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/project3softmeth/clinic-view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,7 +119,15 @@
       <option name="project" value="LOCAL" />
       <updated>1730518020128</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="display">
+      <option name="closed" value="true" />
+      <created>1730563950931</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1730563950931</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -138,6 +144,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Developed Schedule/Cancel page frontend" />
     <MESSAGE value="reschedule" />
-    <option name="LAST_COMMIT_MESSAGE" value="reschedule" />
+    <MESSAGE value="display" />
+    <option name="LAST_COMMIT_MESSAGE" value="display" />
   </component>
 </project>
